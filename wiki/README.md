@@ -26,11 +26,11 @@ In the distribution code is a Django project called wiki that contains a single 
 
 First, open up **encyclopedia/urls.py**, where the URL configuration for this app is defined. Notice that we’ve started you with a single default route that is associated with the views.index function.
 
-Next, look at **encyclopedia/util.py**. You won’t need to change anything in this file, but notice that there are three functions that may prove useful for interacting with encyclopedia entries. 
+Next, look at **encyclopedia/util.py**. You won’t need to change anything in this file, but notice that there are three functions that may prove useful for interacting with encyclopedia entries.
 
 - list_entries returns a list of the names of all encyclopedia entries currently saved.
 - save_entry will save a new encyclopedia entry, given its title and some Markdown content.
-- get_entry will retrieve an encyclopedia entry by its title, returning its Markdown contents if the entry exists or None if the entry does not exist. 
+- get_entry will retrieve an encyclopedia entry by its title, returning its Markdown contents if the entry exists or None if the entry does not exist.
 
 Any of the views you write may use these functions to interact with encyclopedia entries.
 

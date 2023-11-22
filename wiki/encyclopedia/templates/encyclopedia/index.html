@@ -5,12 +5,17 @@
 {% endblock %}
 
 {% block body %}
+    {% if filter %}
+    <h1>Matching Pages</h1>
+    {% else %}
     <h1>All Pages</h1>
+    {% endif %}
 
     <ul>
         {% for entry in entries %}
-            <li><a href="{% url 'encyclopedia:entry' entry %}">{{ entry }}</a></li>
+        <li><a href="{% url 'encyclopedia:entry' entry %}">{{ entry }}</a></li>
+        {% empty %}
+        <p>No entries contain your search term: <b>{{ filter }}</b></p>
         {% endfor %}
     </ul>
-
 {% endblock %}
