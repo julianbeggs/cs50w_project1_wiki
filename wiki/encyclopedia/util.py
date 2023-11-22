@@ -11,6 +11,7 @@ def list_entries(query:str=None):
     If a query string is provided the list is filtered.
     """
     _, filenames = default_storage.listdir("entries")
+    print(query)
     if query != None:
         filenames = list(filter(lambda x: x.find(query) !=-1, filenames))
     return list(sorted(re.sub(r"\.md$", "", filename)

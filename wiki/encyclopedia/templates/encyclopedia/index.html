@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    {% if filter %}
+    {% if query %}
     <h1>Matching Pages</h1>
     {% else %}
     <h1>All Pages</h1>
@@ -15,7 +15,8 @@
         {% for entry in entries %}
         <li><a href="{% url 'encyclopedia:entry' entry %}">{{ entry }}</a></li>
         {% empty %}
-        <p>No entries contain your search term: <b>{{ filter }}</b></p>
+        <p>No entries contain your search term: <b>{{ query }}</b></p>
         {% endfor %}
     </ul>
+
 {% endblock %}

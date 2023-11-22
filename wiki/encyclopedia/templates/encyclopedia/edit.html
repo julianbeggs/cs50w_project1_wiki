@@ -16,7 +16,7 @@
         {% else %}
         <h1>Entry for {{title|safe}}</h1>
         <br>
-        {{entry|safe}}
+        {{ form }}
         <br>
         <a href="{% url 'encyclopedia:edit' title %}">Edit Entry</a>
 
