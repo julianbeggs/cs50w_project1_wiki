@@ -14,11 +14,10 @@
         <br>
         <a href="{% url 'encyclopedia:index' %}">Return Home</a>
         {% else %}
-        <h1>Entry for {{title|safe}}</h1>
         <br>
         {{entry|safe}}
         <br>
-        <a href="{% url 'encyclopedia:edit' title %}">Edit Entry</a>
+        {% comment %} <a href="{% url 'encyclopedia:edit' title %}">Edit Entry</a> {% endcomment %}
 
     {% endif %}
 

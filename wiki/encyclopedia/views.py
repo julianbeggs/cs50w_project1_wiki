@@ -5,30 +5,44 @@ import markdown2
 from django.http import HttpResponseRedirect, request, response, QueryDict
 from . import util
 
+
 class NewEntryForm(forms.Form):
     title = forms.CharField(label="Title")
     entry = forms.CharField(label="Entry", widget=forms.Textarea)
     forms.CharField(widget=forms.Textarea)
 
 def index(request):
-    query = request.GET.get('q', None)
-    return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries(query),
-        "query": query
+    q = request.GET.get('q', None)
+    if q == None:
+        return render(request, "encyclopedia/index.html", {
+        "entries": util.list_entries(),
     })
+    else:
+        return entry(request, q)
 
 def entry(request, title):
-    filter = request.GET.get('q', None)
-    if filter != None:
-        title = filter
-    if util.get_entry(title) != None:
-        entry = markdown2.markdown(util.get_entry(title))
-    else:
-        entry = None
-    return render(request, "encyclopedia/entry.html", {
-        "title": title,
-        "entry": entry,
-    })
+    q = request.GET.get('q', None)
+    if q == None: # no search query param
+        if util.get_entry(title) == None:
+            entry, title = None
+        else:
+            entry = markdown2.markdown(util.get_entry(title))
+        return render(request, "encyclopedia/entry.html", {
+            "title": title,
+            "entry": entry,
+        })
+    else: # there is a search query param
+        if util.get_entry(q) == None:
+            return render(request, "encyclopedia/index.html", {
+                "query": q,
+                "entries": util.search_results(q),
+                })
+        else:
+            entry = markdown2.markdown(util.get_entry(q))
+        return render(request, "encyclopedia/entry.html", {
+            "entry": entry,
+            "title": title
+        })
 
 def new(request):
     # Check if method is POST
