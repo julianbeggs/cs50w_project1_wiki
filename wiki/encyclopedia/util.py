@@ -42,7 +42,5 @@ def search_results(q):
     Returns a list of names of encyclopedia entries including q  substring
     """
     _, filenames = default_storage.listdir("entries")
-    print(q)
-    print(filenames)
     return list(sorted(re.sub(r"\.md$", "", filename)
         for filename in filenames if filename.find(q) != -1))

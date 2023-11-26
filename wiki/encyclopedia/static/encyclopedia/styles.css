@@ -12,6 +12,10 @@ h1 {
     padding-top: 20px;
 }
 
+h1 warning {
+    color: crimson;
+}
+
 .main {
     padding: 10px;
 }

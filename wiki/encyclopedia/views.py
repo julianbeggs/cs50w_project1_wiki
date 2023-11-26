@@ -4,10 +4,19 @@ from django.urls import reverse
 import markdown2
 from django.http import HttpResponseRedirect, request, response, QueryDict
 from . import util
+from django.core.exceptions import ValidationError
 
+
+
+def validate_entry_exists(title):
+    if util.get_entry(title) != None:
+        raise ValidationError(
+            "Entry already exists. Check the name or edit existing entry.",
+            params={"title": title},
+        )
 
 class NewEntryForm(forms.Form):
-    title = forms.CharField(label="Title")
+    title = forms.CharField(label="Title", validators=[validate_entry_exists])
     entry = forms.CharField(label="Entry", widget=forms.Textarea)
     forms.CharField(widget=forms.Textarea)
 
@@ -57,7 +66,8 @@ def new(request):
             entry = form.cleaned_data["entry"]
             
             # Save the new entry to file
-            util.save_entry(title, entry)
+            if util.get_entry(title) == None:
+                util.save_entry(title, entry)
             
             # Redirect user to entry
             request.method = "GET"
