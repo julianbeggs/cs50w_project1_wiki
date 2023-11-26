@@ -5,7 +5,7 @@ import markdown2
 from django.http import HttpResponseRedirect, request, response, QueryDict
 from . import util
 from django.core.exceptions import ValidationError
-
+import random
 
 
 def validate_entry_exists(title):
@@ -104,8 +104,7 @@ def edit(request, title):
             "entry": entry
         })
 
-def random(request):
-    return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries()
-    })
+def random_entry(request):
+    random_title = random.choice(util.list_entries())
+    return HttpResponseRedirect(reverse("encyclopedia:entry", kwargs={"title": random_title}))
 
