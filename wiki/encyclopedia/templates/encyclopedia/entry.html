@@ -13,11 +13,12 @@
         <p>Requested page <b>{{title}}</b> was not found</p>
         <br>
         <a href="{% url 'encyclopedia:index' %}">Return Home</a>
-        {% else %}
+    {% else %}
+        <h1>{{title|safe}}</h1>
         <br>
         {{entry|safe}}
         <br>
-        {% comment %} <a href="{% url 'encyclopedia:edit' title %}">Edit Entry</a> {% endcomment %}
+        <a href="{% url 'encyclopedia:edit' title %}">Edit Entry</a>
 
     {% endif %}
 

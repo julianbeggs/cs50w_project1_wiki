@@ -20,6 +20,10 @@ class NewEntryForm(forms.Form):
     entry = forms.CharField(label="Entry", widget=forms.Textarea)
     forms.CharField(widget=forms.Textarea)
 
+class EditEntryForm(forms.Form):
+    entry = forms.CharField(label="Entry", widget=forms.Textarea)
+    forms.CharField(widget=forms.Textarea)
+
 def index(request):
     q = request.GET.get('q', None)
     if q == None:
@@ -83,17 +87,23 @@ def new(request):
     return render(request, "encyclopedia/new.html", {
         "form": NewEntryForm()
     })
-
-def edit(request, title):
-    if util.get_entry(title) != None:
-        entry = markdown2.markdown(util.get_entry(title))
-    else:
-        entry = None
-    return render(request, "encyclopedia/edit.html", {
-        "title": title,
-        "entry": entry,
-    })
     
+def edit(request, title):
+    entry = request.POST.get('entry')
+    # Check if method is POST
+    if request.method == "POST":            
+        # Save the new entry to file
+        util.save_entry(title, entry)
+        # Redirect user to entry
+        request.method = "GET"
+        return HttpResponseRedirect(reverse("encyclopedia:entry", kwargs={"title": title}))
+    else:
+        entry = util.get_entry(title)
+        return render(request, "encyclopedia/edit.html", {
+            "title": title,
+            "entry": entry
+        })
+
 def random(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()

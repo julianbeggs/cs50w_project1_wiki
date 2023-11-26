@@ -1,25 +1,22 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-    Encyclopedia
+    Encyclopedia - Edit {{title}}
 {% endblock %}
 
 {% block body %}
 
-    {% if entry == None %}
-        <h1>Entry Not Found</h1>
-        <br>
-        <br>
-        <p>Requested page <b>{{title}}</b> was not found</p>
-        <br>
-        <a href="{% url 'encyclopedia:index' %}">Return Home</a>
-        {% else %}
-        <h1>Entry for {{title|safe}}</h1>
-        <br>
-        {{ form }}
-        <br>
-        <a href="{% url 'encyclopedia:edit' title %}">Edit Entry</a>
+    <h1>Edit the entry for {{title|safe}}</h1>
+    <br>
 
-    {% endif %}
+    <form action="{% url 'encyclopedia:edit' title %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="name" id="title" value="{{title}}">
+        <textarea id="entry" name="entry" rows="20" cols="100">{{entry}}</textarea>
+        <input type="submit">
+    </form>
+
+    <br>
+    <a href="{% url 'encyclopedia:index' %}">Return Home</a>
 
 {% endblock %}
