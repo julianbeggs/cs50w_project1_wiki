@@ -20,10 +20,6 @@ class NewEntryForm(forms.Form):
     entry = forms.CharField(label="Entry", widget=forms.Textarea)
     forms.CharField(widget=forms.Textarea)
 
-class EditEntryForm(forms.Form):
-    entry = forms.CharField(label="Entry", widget=forms.Textarea)
-    forms.CharField(widget=forms.Textarea)
-
 def index(request):
     q = request.GET.get('q', None)
     if q == None:
@@ -37,7 +33,7 @@ def entry(request, title):
     q = request.GET.get('q', None)
     if q == None: # no search query param
         if util.get_entry(title) == None:
-            entry, title = None
+            entry = None
         else:
             entry = markdown2.markdown(util.get_entry(title))
         return render(request, "encyclopedia/entry.html", {
@@ -54,7 +50,7 @@ def entry(request, title):
             entry = markdown2.markdown(util.get_entry(q))
         return render(request, "encyclopedia/entry.html", {
             "entry": entry,
-            "title": title
+            "title": q
         })
 
 def new(request):
